@@ -26,9 +26,10 @@ export const metadata: Metadata = {
   description: "Dima",
   icons: {
     icon: [
+      { url: "/favicon.ico", type: "image/x-icon" },
       { url: "/assets/logo_dima.png", type: "image/png" },
     ],
-    shortcut: ["/assets/logo_dima.png"],
+    shortcut: ["/favicon.ico"],
     apple: ["/assets/logo_dima.png"],
   },
 };
