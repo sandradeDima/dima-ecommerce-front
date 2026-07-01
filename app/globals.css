@@ -1,28 +1,56 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4f8ff;
+  --foreground: #16356c;
+  --dima-page: #f4f8ff;
+  --dima-surface: #ffffff;
+  --dima-surface-soft: #e6eefb;
+  --dima-surface-muted: #d8e5fb;
+  --dima-primary: #254ca9;
+  --dima-primary-strong: #17377f;
+  --dima-primary-soft: #7da7ff;
+  --dima-accent: #28c44f;
+  --dima-accent-strong: #1eaa42;
+  --dima-ink: #17356b;
+  --dima-ink-soft: #4a658f;
+  --dima-line: rgba(34, 76, 168, 0.18);
+  --dima-shadow: 0 22px 52px rgba(29, 63, 136, 0.14);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-dima-body);
+  --font-mono: var(--font-dima-display);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-dima-body), sans-serif;
+  background-image:
+    radial-gradient(circle at top left, rgba(125, 167, 255, 0.22), transparent 28%),
+    radial-gradient(circle at top right, rgba(37, 76, 169, 0.1), transparent 24%),
+    linear-gradient(180deg, #f8fbff 0%, #edf4ff 100%);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-dima-display), sans-serif;
+}
+
+::selection {
+  background: rgba(37, 76, 169, 0.2);
+  color: #16356c;
 }
 
 button:not(:disabled),

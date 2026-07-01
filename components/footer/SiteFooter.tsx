@@ -1,214 +1,99 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
+import isoBadge from "@/app/assets/iso-min.webp";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   getInformacion,
+  getTopMarcas,
   InformacionItem,
   InformacionResponse,
   RedSocialItem,
+  TopMarcaItem,
+  toPublicStorageUrl,
 } from "@/lib/api";
 import FloatingActionButtons from "./FloatingActionButtons";
-import FooterContactInfo from "./FooterContactInfo";
-import FooterLinksColumn, { FooterLinkItem } from "./FooterLinksColumn";
 
-function HomeIcon({ className = "" }: { className?: string }) {
+const MANAGED_SERVICES_URL =
+  "https://dima.com.bo/subcategoria/servicios-administrados-58";
+const DISTRIBUTOR_HUB_URL = "https://dima.com.bo/login";
+const JOIN_TEAM_URL = "https://dima.com.bo/equipo-trabajo";
+
+function MailIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
+      <rect
+        x="3"
+        y="5"
+        width="18"
+        height="14"
+        rx="2.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <path
+        d="m4 7 8 6 8-6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function PhoneIcon({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
       <path
-        d="M4 11.5 12 5l8 6.5V20a1 1 0 0 1-1 1h-5v-5h-4v5H5a1 1 0 0 1-1-1v-8.5Z"
+        d="M6.7 3.8h3.1l1.1 4-2 1.9a16 16 0 0 0 5.2 5.2l1.9-2 4 1.1v3.1c0 .8-.6 1.4-1.4 1.5-7.8.6-14-5.6-13.4-13.4.1-.8.7-1.4 1.5-1.4Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function LinkedInIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
+      <circle cx="6.1" cy="7" r="1.7" fill="currentColor" />
+      <path
+        d="M4.5 10h3.2v9H4.5zM10 10h3v1.4c.6-1 1.6-1.7 3.3-1.7 2.5 0 3.7 1.6 3.7 4.5v4.8h-3.2v-4.3c0-1.3-.5-2.2-1.7-2.2-1 0-1.6.6-1.9 1.3-.1.2-.1.6-.1.9v4.3H10V10Z"
         fill="currentColor"
       />
     </svg>
   );
 }
 
-function BookIcon({ className = "" }: { className?: string }) {
+function FacebookIcon({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
       <path
-        d="M5 4h7a3 3 0 0 1 3 3v13H8a3 3 0 0 0-3 3V4Zm14 0h-4a3 3 0 0 0-3 3v13h7V4Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.9"
-        strokeLinejoin="round"
+        d="M14 8h2V4h-2.4C10.8 4 9 5.8 9 8.6V11H7v4h2v5h4v-5h2.8l.7-4H13V8.9c0-.6.4-.9 1-.9Z"
+        fill="currentColor"
       />
     </svg>
   );
 }
 
-function ReceiptIcon({ className = "" }: { className?: string }) {
+function GlobeIcon({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" />
       <path
-        d="M7 3h10a2 2 0 0 1 2 2v16l-2.5-1.4L14 21l-2.5-1.4L9 21l-2.5-1.4L4 21V5a2 2 0 0 1 2-2Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.9"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M8 8h8M8 12h8M8 16h5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.9"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function TagIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
-      <path
-        d="M3 11.2V5.6A2.6 2.6 0 0 1 5.6 3h5.6l9 9-7.6 7.5-9.6-9.3Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.9"
-        strokeLinejoin="round"
-      />
-      <circle cx="8.2" cy="8.2" r="1.3" fill="currentColor" />
-    </svg>
-  );
-}
-
-function SupportIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
-      <path
-        d="M4 13v3a2 2 0 0 0 2 2h2v-7H6a2 2 0 0 0-2 2Zm16 0v3a2 2 0 0 1-2 2h-2v-7h2a2 2 0 0 1 2 2Z"
+        d="M3.5 12h17M12 3c2.4 2.5 3.8 5.7 3.8 9s-1.4 6.5-3.8 9m0-18C9.6 5.5 8.2 8.7 8.2 12s1.4 6.5 3.8 9"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M4 13a8 8 0 1 1 16 0"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
       />
     </svg>
-  );
-}
-
-function GraduationCapIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
-      <path
-        d="m2 9.5 10-5 10 5-10 5-10-5Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M6.5 11.6v4.1c0 1.4 2.5 2.8 5.5 2.8s5.5-1.4 5.5-2.8v-4.1"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function RssIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
-      <circle cx="6.2" cy="17.8" r="2.2" fill="currentColor" />
-      <path
-        d="M4 10.5a9.5 9.5 0 0 1 9.5 9.5M4 5a15 15 0 0 1 15 15"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.9"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-const footerLinksLeft: FooterLinkItem[] = [
-  { label: "Inicio", href: "/", icon: <HomeIcon className="h-[19px] w-[19px]" /> },
-  {
-    label: "Catálogo",
-    href: "/catalogo",
-    icon: <BookIcon className="h-[19px] w-[19px]" />,
-  },
-  {
-    label: "Cotizar",
-    href: "/cotizar",
-    icon: <ReceiptIcon className="h-[19px] w-[19px]" />,
-    analyticsSourceSection: "footer_nav",
-  },
-];
-
-const footerLinksRight: FooterLinkItem[] = [
-  { label: "Marcas", href: "/marcas", icon: <TagIcon className="h-[19px] w-[19px]" /> },
-  {
-    label: "Soporte",
-    href: "/soporte",
-    icon: <SupportIcon className="h-[19px] w-[19px]" />,
-  },
-  /* {
-    label: "Academia DMC",
-    href: "/academia",
-    icon: <GraduationCapIcon className="h-[19px] w-[19px]" />,
-  }, */
-  { label: "Blog", href: "/blog", icon: <RssIcon className="h-[19px] w-[19px]" /> },
-];
-
-function FooterSkeleton() {
-  return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start">
-      <div className="flex items-center justify-center lg:justify-start lg:pr-10">
-        <div className="h-[68px] w-[180px] animate-pulse rounded-lg bg-white/20" />
-      </div>
-
-      <div className="grid gap-6 border-y border-white/20 py-6 sm:grid-cols-2 lg:border-y-0 lg:border-x lg:px-10 lg:py-0">
-        <div>
-          <div className="h-8 w-32 animate-pulse rounded-md bg-white/20" />
-          <div className="mt-4 space-y-3">
-            {Array.from({ length: 3 }).map((_, index) => (
-              <div
-                key={`left-link-skeleton-${index}`}
-                className="h-5 w-32 animate-pulse rounded-md bg-white/20"
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-3 sm:pt-[48px] lg:pt-0">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <div
-              key={`right-link-skeleton-${index}`}
-              className="h-5 w-32 animate-pulse rounded-md bg-white/20"
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="space-y-3 text-center lg:pl-10 lg:text-left">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <div
-            key={`contact-row-skeleton-${index}`}
-            className="mx-auto h-5 w-full max-w-[260px] animate-pulse rounded-md bg-white/20 lg:mx-0"
-          />
-        ))}
-        <div className="mt-5 flex justify-center gap-3 lg:justify-start">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <div
-              key={`social-skeleton-${index}`}
-              className="h-10 w-10 animate-pulse rounded-full bg-white/20"
-            />
-          ))}
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -224,36 +109,107 @@ function normalizeInformacionPayload(payload: InformacionResponse | null | undef
   };
 }
 
+function normalizeExternalUrl(value: string | null | undefined): string | null {
+  const clean = value?.trim();
+  if (!clean) return null;
+  if (/^https?:\/\//i.test(clean)) return clean;
+  return `https://${clean}`;
+}
+
+function renderSocialFallbackIcon(name: string, className: string) {
+  const lower = name.toLowerCase();
+  if (lower.includes("facebook")) return <FacebookIcon className={className} />;
+  if (lower.includes("linkedin")) return <LinkedInIcon className={className} />;
+  return <GlobeIcon className={className} />;
+}
+
+function FooterTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h3 className="text-[15px] font-extrabold uppercase tracking-[0.14em] text-white sm:text-[16px]">
+      {children}
+    </h3>
+  );
+}
+
+function FooterBrandLinks({ items }: { items: TopMarcaItem[] }) {
+  return (
+    <ul className="mt-4 space-y-2.5 text-sm leading-6 text-white/88">
+      {items.map((item) => (
+        <li key={item.id}>
+          <Link
+            href={`/catalogo?marca=${item.id}`}
+            className="transition hover:text-white"
+          >
+            {item.nombre}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function SocialLink({ item }: { item: RedSocialItem }) {
+  const href = normalizeExternalUrl(item.url);
+  const iconUrl = toPublicStorageUrl(item.imagen_icono);
+
+  if (!href) return null;
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={item.nombre || "Red social"}
+      title={item.nombre || "Red social"}
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/28 bg-white/10 text-white transition hover:bg-white/18"
+    >
+      {iconUrl ? (
+        <img
+          src={iconUrl}
+          alt={item.nombre || "Red social"}
+          className="h-4 w-4 object-contain brightness-0 invert"
+          loading="lazy"
+        />
+      ) : (
+        renderSocialFallbackIcon(item.nombre || "", "h-4 w-4")
+      )}
+    </a>
+  );
+}
+
 export default function SiteFooter() {
   const [informacion, setInformacion] = useState<InformacionItem | null>(null);
   const [redesSociales, setRedesSociales] = useState<RedSocialItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+  const [topBrands, setTopBrands] = useState<TopMarcaItem[]>([]);
 
   useEffect(() => {
     let isCancelled = false;
 
     const loadFooterData = async () => {
-      setIsLoading(true);
-      setHasError(false);
+      const [infoResult, brandsResult] = await Promise.allSettled([
+        getInformacion(),
+        getTopMarcas({ limit: 9 }),
+      ]);
 
-      try {
-        const response = await getInformacion();
-        if (isCancelled) return;
+      if (isCancelled) return;
 
-        const normalized = normalizeInformacionPayload(response);
+      if (infoResult.status === "fulfilled") {
+        const normalized = normalizeInformacionPayload(infoResult.value);
         setInformacion(normalized.informacion);
         setRedesSociales(normalized.redesSociales);
-      } catch {
-        if (!isCancelled) {
-          setInformacion(null);
-          setRedesSociales([]);
-          setHasError(true);
-        }
-      } finally {
-        if (!isCancelled) {
-          setIsLoading(false);
-        }
+      } else {
+        setInformacion(null);
+        setRedesSociales([]);
+      }
+
+      if (brandsResult.status === "fulfilled") {
+        setTopBrands(
+          brandsResult.value
+            .filter((item) => Number(item.productos_count) > 0)
+            .slice(0, 9),
+        );
+      } else {
+        setTopBrands([]);
       }
     };
 
@@ -264,47 +220,112 @@ export default function SiteFooter() {
     };
   }, []);
 
+  const email = informacion?.correo?.trim() || "sales@dimaintl.com";
+  const phone = informacion?.telefono?.trim() || "+591 000 00000";
+  const activeSocials = redesSociales.filter(
+    (item) => item.estado?.toLowerCase() === "activo",
+  );
+
   return (
     <>
-      <footer className="relative overflow-hidden bg-[#22252A]">
-        <div className="absolute inset-0 bg-[#22252A]" />
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-45"
-          style={{ backgroundImage: "url('/assets/static/footer_bg.png')" }}
-        />
+      <footer className="relative overflow-hidden bg-[linear-gradient(135deg,#17377f_0%,#234aa8_48%,#294fa9_100%)] text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(125,167,255,0.26),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.08),transparent_22%)]" />
 
-        <div className="relative mx-auto w-full max-w-[1700px] px-5 py-10 sm:px-8 sm:py-12 lg:px-20 lg:py-14 xl:px-24">
-          {isLoading ? (
-            <FooterSkeleton />
-          ) : (
-            <div className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start">
-              <div className="flex items-center justify-center lg:pr-10">
-                {/*  <Image
-                  src="/assets/logo-dmc-dark-v1.png"
-                  alt="DMC"
-                  width={330}
-                  height={130}
-                  className="h-auto w-[180px] sm:w-[220px] lg:w-[285px]"
-                  priority={false}
-                />   */}
+        <div className="relative mx-auto max-w-[1680px] px-5 py-14 sm:px-8 lg:px-10">
+          <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr_0.9fr_0.8fr]">
+            <div id="footer-contact" className="space-y-5">
+              <Link
+                href="/"
+                className="relative block h-[58px] w-[180px] sm:h-[66px] sm:w-[220px]"
+                aria-label="Dima"
+              >
+                <Image
+                  src="/assets/logo_dima.webp"
+                  alt="Dima"
+                  fill
+                  className="object-contain object-left"
+                />
+              </Link>
+
+              <div className="space-y-3 text-sm text-white/88">
+                <a
+                  href={`mailto:${email}`}
+                  className="inline-flex items-center gap-3 transition hover:text-white"
+                >
+                  <MailIcon className="h-4 w-4" />
+                  {email}
+                </a>
+                <p className="inline-flex items-center gap-3">
+                  <PhoneIcon className="h-4 w-4" />
+                  {phone}
+                </p>
               </div>
-
-              <div className="grid gap-6 border-y border-white/20 py-6 sm:grid-cols-2 lg:border-y-0 lg:border-x lg:px-10 lg:py-0">
-                <FooterLinksColumn title="Páginas:" links={footerLinksLeft} />
-                <FooterLinksColumn links={footerLinksRight} className="sm:pt-[48px] lg:pt-0" />
-              </div>
-
-              <FooterContactInfo
-                informacion={informacion}
-                redesSociales={redesSociales}
-                hasError={hasError}
-                className="text-center lg:pl-10 lg:text-left"
-              />
             </div>
-          )}
-        </div>
 
-        <div className="absolute inset-x-0 bottom-0 h-[4px] bg-[#F54029]" />
+            <div>
+              <FooterTitle>Marcas</FooterTitle>
+              {topBrands.length > 0 ? (
+                <FooterBrandLinks items={topBrands} />
+              ) : (
+                <p className="mt-4 text-sm leading-6 text-white/88">
+                  Explora nuestras marcas en el catálogo.
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-8">
+              <div>
+                <FooterTitle>Servicios administrados</FooterTitle>
+                <a
+                  href={MANAGED_SERVICES_URL}
+                  className="mt-4 inline-flex text-sm leading-6 text-white/88 transition hover:text-white"
+                >
+                  Ver más
+                </a>
+              </div>
+
+              <div>
+                <FooterTitle>Hub distribuidores</FooterTitle>
+                <a
+                  href={DISTRIBUTOR_HUB_URL}
+                  className="mt-4 inline-flex text-sm leading-6 text-white/88 transition hover:text-white"
+                >
+                  Ingresar
+                </a>
+              </div>
+            </div>
+
+            <div className="space-y-8">
+              <div>
+                <FooterTitle>Envíanos tu CV</FooterTitle>
+                <a
+                  href={JOIN_TEAM_URL}
+                  className="mt-4 inline-flex text-sm leading-6 text-white/88 transition hover:text-white"
+                >
+                  Postúlate aquí
+                </a>
+              </div>
+
+              <div className="inline-flex items-center justify-center rounded-[28px] border border-white/22 bg-white/8 px-5 py-4 shadow-[0_18px_34px_rgba(9,22,56,0.22)]">
+                <Image
+                  src={isoBadge}
+                  alt="Certificación ISO 9001"
+                  className="h-auto w-[132px] object-contain"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 border-t border-white/20 pt-6">
+            {activeSocials.length > 0 ? (
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                {activeSocials.map((item) => (
+                  <SocialLink key={item.id} item={item} />
+                ))}
+              </div>
+            ) : null}
+          </div>
+        </div>
       </footer>
 
       <FloatingActionButtons />

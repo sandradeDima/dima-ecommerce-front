@@ -197,6 +197,10 @@ export type MarcaItem = {
   numero_whatsapp?: string | null;
 };
 
+export type TopMarcaItem = MarcaItem & {
+  productos_count: number;
+};
+
 export type PaginationLink = {
   url: string | null;
   label: string;
@@ -251,12 +255,15 @@ export type InformacionItem = {
   id: number;
   correo: string | null;
   telefono: string | null;
+  whatsapp?: string | null;
+  numero_whatsapp?: string | null;
   direccion: string | null;
   horario_trabajo: string | null;
   mensaje_despedida_chat: string | null;
   mensaje_bienvenida_chat: string | null;
   texto_home: string | null;
   ubicacion_mapa?: string | null;
+  chat_menu_habilitado?: boolean | null;
 };
 
 export type InformacionResponse = {
@@ -280,6 +287,55 @@ export type ProductoCatalogo = ProductoBase & {
   categoria_id: number;
   categoria?: { id: number; nombre: string };
   marca?: { id: number; nombre: string };
+};
+
+export type CheckoutPedidoItemPayload = {
+  id: number | string;
+  nombre: string;
+  slug: string;
+  sku?: string | null;
+  sku_dima?: string | null;
+  marca?: string | null;
+  categoria?: string | null;
+  subcategoria?: string | null;
+  cantidad: number;
+  precio_unitario?: number | null;
+  precio_unitario_texto?: string | null;
+  subtotal_texto?: string | null;
+  url_producto?: string | null;
+};
+
+export type CheckoutPedidoPayload = {
+  nombre: string;
+  telefono_prefijo: string;
+  telefono: string;
+  ciudad: string;
+  ubicacion?: string | null;
+  direccion: string;
+  notas?: string | null;
+  nit?: string | null;
+  razon_social?: string | null;
+  items: CheckoutPedidoItemPayload[];
+  resumen: {
+    total_cantidad: number;
+    total_items_unicos: number;
+    items_con_precio: number;
+    items_sin_precio: number;
+    subtotal: number;
+    tiene_items_con_precio: boolean;
+    tiene_items_sin_precio: boolean;
+  };
+  meta?: {
+    origen?: string | null;
+    whatsapp_destino?: string | null;
+    whatsapp_url?: string | null;
+  };
+};
+
+export type CheckoutPedidoResponse = {
+  id: number;
+  slug: string;
+  estado_pedido: string;
 };
 
 export type ProductoSubcategoria = {
@@ -310,7 +366,8 @@ export type ProductoRelacionadoItem = {
 export type ProductoDetailItem = {
   id: number;
   sku: string | null;
-  sku_dmc: string | null;
+  sku_dima: string | null;
+  moneda?: string | null;
   nombre: string;
   marca_id: number | null;
   categoria_id: number | null;
@@ -473,10 +530,18 @@ export type ProductoItem = {
   title_imagen: string | null;
   alt_imagen: string | null;
   slug: string;
+  sku?: string | null;
+  sku_dima?: string | null;
+  moneda?: string | null;
+  precio?: number | string | null;
+  precio_referencial?: number | string | null;
   marca_id: number | null;
   categoria_id: number | null;
+  subcategoria_id?: number | null;
   categoria?: ProductoCategoria | null;
   marca?: ProductoMarca | null;
+  subcategoria?: ProductoSubcategoria | null;
+  estado?: string;
 };
 
 export type ProductosPaginationData = {
@@ -517,6 +582,10 @@ export async function getMarcasInicio(query?: BaseListQuery) {
   return requestPublicApi<Paginated<Marca>>("/marcas/inicio", { query });
 }
 
+export async function getTopMarcas(query?: { limit?: number }) {
+  return requestPublicApi<TopMarcaItem[]>("/marcas/top", { query });
+}
+
 export async function getCategorias(query?: { limit?: number }) {
   return requestPublicApi<Categoria[]>("/categorias", { query });
 }
@@ -546,6 +615,13 @@ export async function getProductosInicio() {
 
 export async function getProductoDetalle(slug: string) {
   return requestPublicApi<ProductoDetalle | null>(`/productos/${slug}`);
+}
+
+export async function createCheckoutPedido(payload: CheckoutPedidoPayload) {
+  return requestPublicApi<CheckoutPedidoResponse>("/pedidos", {
+    method: "POST",
+    body: payload,
+  });
 }
 
 

@@ -176,14 +176,27 @@ export function getProductoGalleryImages(producto: ProductoDetailItem): Producto
 
 export function formatPriceOrFallback(producto: ProductoDetailItem): string | null {
   const candidates = [producto.precio, producto.precio_referencial];
-  const formatter = new Intl.NumberFormat("es-BO", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  });
+  const currencyCode = producto.moneda?.trim().toUpperCase() || "BOB";
+
+  const formatCurrency = (value: number) => {
+    try {
+      return new Intl.NumberFormat("es-BO", {
+        style: "currency",
+        currency: currencyCode,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      }).format(value);
+    } catch {
+      return `${new Intl.NumberFormat("es-BO", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      }).format(value)} ${currencyCode}`;
+    }
+  };
 
   for (const candidate of candidates) {
     if (typeof candidate === "number" && Number.isFinite(candidate)) {
-      return `${formatter.format(candidate)} Bs.`;
+      return formatCurrency(candidate);
     }
 
     if (typeof candidate === "string") {
@@ -192,7 +205,7 @@ export function formatPriceOrFallback(producto: ProductoDetailItem): string | nu
 
       const numeric = Number(clean.replace(/[^0-9.,-]/g, "").replace(",", "."));
       if (Number.isFinite(numeric) && clean.match(/[0-9]/)) {
-        return `${formatter.format(numeric)} Bs.`;
+        return formatCurrency(numeric);
       }
 
       return clean;

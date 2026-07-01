@@ -26,7 +26,7 @@ export type SearchSuggestionItem = {
   nombre: string;
   slug: string;
   sku?: string | null;
-  sku_dmc?: string | null;
+  sku_dima?: string | null;
   marca_nombre?: string | null;
   categoria_nombre?: string | null;
   imagen_principal?: string | null;
@@ -62,4 +62,3 @@ export async function searchProductos(
     signal: options?.signal,
   });
 }
-

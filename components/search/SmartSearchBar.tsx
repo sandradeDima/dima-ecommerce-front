@@ -89,23 +89,6 @@ export default function SmartSearchBar({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    if (!isOpen) {
-      setHighlightedIndex(-1);
-      return;
-    }
-
-    if (!items.length) {
-      setHighlightedIndex(-1);
-      return;
-    }
-
-    setHighlightedIndex((current) => {
-      if (current >= items.length) return 0;
-      return current;
-    });
-  }, [isOpen, items.length]);
-
   const submitValue = () => {
     const query = normalizedValue;
     onSubmit(query);
@@ -128,6 +111,12 @@ export default function SmartSearchBar({
 
   const shouldRenderDropdown =
     isOpen && (isLoading || errorMessage !== null || hasQuery || items.length > 0);
+  const effectiveHighlightedIndex =
+    !isOpen || items.length === 0
+      ? -1
+      : highlightedIndex >= items.length
+        ? 0
+        : highlightedIndex;
 
   return (
     <div ref={rootRef} className={`relative ${className}`}>
@@ -176,9 +165,9 @@ export default function SmartSearchBar({
               return;
             }
 
-            if (event.key === "Enter" && highlightedIndex >= 0) {
+            if (event.key === "Enter" && effectiveHighlightedIndex >= 0) {
               event.preventDefault();
-              const activeItem = items[highlightedIndex];
+              const activeItem = items[effectiveHighlightedIndex];
               if (activeItem) {
                 selectSuggestion(activeItem);
               }
@@ -210,7 +199,7 @@ export default function SmartSearchBar({
       <SearchSuggestionsDropdown
         isOpen={shouldRenderDropdown}
         items={items}
-        highlightedIndex={highlightedIndex}
+        highlightedIndex={effectiveHighlightedIndex}
         isLoading={isLoading}
         errorMessage={errorMessage}
         hasQuery={hasQuery}
@@ -221,4 +210,3 @@ export default function SmartSearchBar({
     </div>
   );
 }
-

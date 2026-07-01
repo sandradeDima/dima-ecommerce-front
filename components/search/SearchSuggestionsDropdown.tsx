@@ -65,7 +65,7 @@ export default function SearchSuggestionsDropdown({
       ) : (
         items.map((item, index) => {
           const isActive = index === highlightedIndex;
-          const secondaryLine = [item.marca_nombre, item.sku || item.sku_dmc]
+          const secondaryLine = [item.marca_nombre, item.sku || item.sku_dima]
             .filter(Boolean)
             .join(" • ");
 
@@ -102,4 +102,3 @@ export default function SearchSuggestionsDropdown({
     </div>
   );
 }
-

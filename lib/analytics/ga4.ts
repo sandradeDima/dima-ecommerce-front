@@ -29,7 +29,7 @@ type TrackProductViewPayload = {
   precioReferencial?: number | string | null;
   marca?: string | null;
   sku?: string | null;
-  skuDmc?: string | null;
+  skuDima?: string | null;
 };
 
 function getGtag(): GtagFunction | null {
@@ -199,7 +199,7 @@ export function trackProductView(product: TrackProductViewPayload): void {
     page_type: resolvePageType("product_detail"),
     item_slug: product.slug,
     sku: product.sku?.trim() || undefined,
-    sku_dmc: product.skuDmc?.trim() || undefined,
+    sku_dima: product.skuDima?.trim() || undefined,
     items: [
       {
         item_id: String(product.id),

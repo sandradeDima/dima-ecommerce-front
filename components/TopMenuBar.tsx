@@ -1,142 +1,107 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { getPageTypeFromPath } from "@/lib/analytics/ga4";
-
-const menuItems = [
-  { label: "Inicio", href: "/" },
-  { label: "Catálogo", href: "/catalogo" },
-];
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import CartIconButton from "@/components/cart/CartIconButton";
+import SmartSearchBar from "@/components/search/SmartSearchBar";
+import type { SearchSuggestionItem } from "@/lib/api";
 
 type TopMenuBarProps = {
   className?: string;
 };
 
 export default function TopMenuBar({ className = "" }: TopMenuBarProps) {
-  const pathname = usePathname();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const pageType = getPageTypeFromPath(pathname ?? "/");
+  const router = useRouter();
+  const [searchValue, setSearchValue] = useState("");
 
-  useEffect(() => {
-    if (!isMobileMenuOpen) {
-      document.body.style.overflow = "";
-      return;
+  const handleSearchSubmit = (query: string) => {
+    const normalized = query.trim();
+    const params = new URLSearchParams();
+
+    if (normalized) {
+      params.set("q", normalized);
     }
 
-    document.body.style.overflow = "hidden";
+    router.push(params.toString() ? `/catalogo?${params.toString()}` : "/catalogo");
+  };
 
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isMobileMenuOpen]);
-
-  const isActiveRoute = (href: string) =>
-    href === "/"
-      ? pathname === "/"
-      : pathname === href || pathname.startsWith(`${href}/`);
-
-
+  const handleSearchSuggestionSelect = (item: SearchSuggestionItem) => {
+    if (!item.slug) return;
+    router.push(`/producto/${item.slug}`);
+  };
 
   return (
     <header
-      className={`sticky top-0 z-50 h-[85px] w-full border-b border-white/20 bg-[rgba(92,104,115,0.68)] backdrop-blur-sm ${className}`}
+      className={`sticky top-0 z-50 overflow-hidden border-b border-white/12 bg-[linear-gradient(135deg,#17377f_0%,#234aa8_55%,#1c4cae_100%)] text-white shadow-[0_18px_42px_rgba(16,39,88,0.26)] ${className}`}
     >
-      <div className="mx-auto flex h-full w-full max-w-[1920px] items-center justify-between gap-6 px-6 lg:px-10">
-        <Link
-          href="/"
-          className="relative block h-[55px] w-[134px] shrink-0"
-          aria-label="DMC inicio"
-        >
-          <Image
-            src="/assets/logo_dima.png"
-            alt="DMC"
-            fill
-            priority
-            className="object-contain object-left"
-          />
-        </Link>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(125,167,255,0.26),transparent_26%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.08),transparent_55%)]" />
 
-        <button
-          type="button"
-          onClick={() => setIsMobileMenuOpen((current) => !current)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition hover:bg-white/15 md:hidden"
-          aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
-          aria-expanded={isMobileMenuOpen}
-          aria-controls="mobile-main-menu"
-        >
-          <span className="relative h-4 w-5">
-            <span
-              className={`absolute left-0 top-0 h-0.5 w-5 rounded-full bg-white transition-all duration-200 ${isMobileMenuOpen ? "translate-y-[7px] rotate-45" : ""
-                }`}
-            />
-            <span
-              className={`absolute left-0 top-[7px] h-0.5 w-5 rounded-full bg-white transition-opacity duration-200 ${isMobileMenuOpen ? "opacity-0" : "opacity-100"
-                }`}
-            />
-            <span
-              className={`absolute left-0 top-[14px] h-0.5 w-5 rounded-full bg-white transition-all duration-200 ${isMobileMenuOpen ? "-translate-y-[7px] -rotate-45" : ""
-                }`}
-            />
-          </span>
-        </button>
+      <div className="relative mx-auto max-w-[1680px] px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-4 py-4 sm:py-5 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-center lg:gap-6">
+          <div className="hidden min-w-0 lg:flex lg:justify-self-start">
+            <Link
+              href="/"
+              className="inline-flex min-h-[44px] items-center rounded-full border border-white/35 bg-white/6 px-4 text-[12px] font-semibold tracking-[0.06em] text-white/95 transition hover:bg-white/12"
+            >
+              Centro de asistencia técnica
+            </Link>
+          </div>
 
-        <nav className="hidden md:block" aria-label="Navegación principal">
-          <ul className="flex min-w-max items-center gap-3 text-[16px] font-semibold text-white/95 lg:gap-6">
-            {menuItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  aria-current={isActiveRoute(item.href) ? "page" : undefined}
-                  className={`whitespace-nowrap transition-colors duration-200 hover:text-white hover:underline hover:underline-offset-4 ${isActiveRoute(item.href)
-                    ? "text-white underline underline-offset-4"
-                    : ""
-                    }`}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+          <div className="flex items-center justify-center gap-4">
+            <Link
+              href="/"
+              className="relative block h-[62px] w-[210px] shrink-0 sm:h-[72px] sm:w-[240px] lg:h-[86px] lg:w-[260px] xl:h-[96px] xl:w-[300px]"
+              aria-label="Dima inicio"
+            >
+              <Image
+                src="/assets/logo_dima.png"
+                alt="Dima"
+                fill
+                priority
+                className="object-contain brightness-0 invert"
+              />
+            </Link>
+          </div>
+
+          <div className="hidden min-w-0 items-center justify-end gap-2 lg:flex xl:gap-3">
+            <SmartSearchBar
+              value={searchValue}
+              onValueChange={setSearchValue}
+              onSubmit={handleSearchSubmit}
+              onSuggestionSelect={handleSearchSuggestionSelect}
+              placeholder="Buscar productos"
+              ariaLabel="Buscar productos"
+              className="w-full max-w-[260px] xl:max-w-[320px]"
+              formClassName="relative flex items-center"
+              inputClassName="h-12 w-full rounded-full border border-white/35 bg-[rgba(255,255,255,0.08)] px-4 pr-11 text-sm text-white placeholder:text-white/72 outline-none transition focus:border-white/70 focus:bg-white/14"
+              buttonClassName="absolute right-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-white transition hover:bg-white/12"
+              dropdownClassName="top-full mt-3"
+            />
+
+            <CartIconButton />
+          </div>
+
+          <div className="flex items-center gap-3 lg:hidden">
+            <div className="min-w-0 flex-1">
+              <SmartSearchBar
+                value={searchValue}
+                onValueChange={setSearchValue}
+                onSubmit={handleSearchSubmit}
+                onSuggestionSelect={handleSearchSuggestionSelect}
+                placeholder="Buscar productos"
+                ariaLabel="Buscar productos"
+                formClassName="relative flex items-center"
+                inputClassName="h-12 w-full rounded-full border border-white/28 bg-white/10 px-4 pr-12 text-sm text-white placeholder:text-white/72 outline-none transition focus:border-white/60"
+                buttonClassName="absolute right-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-white transition hover:bg-white/12"
+                dropdownClassName="top-full mt-3"
+              />
+            </div>
+            <CartIconButton className="shrink-0" />
+          </div>
+        </div>
       </div>
-
-      {isMobileMenuOpen ? (
-        <>
-          <button
-            type="button"
-            aria-label="Cerrar menú"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="fixed inset-0 top-[85px] z-40 bg-black/35 backdrop-blur-[1px] md:hidden"
-          />
-
-          <nav
-            id="mobile-main-menu"
-            aria-label="Navegación principal móvil"
-            className="absolute inset-x-0 top-full z-50 border-b border-white/20 bg-[rgba(92,104,115,0.96)] px-6 py-4 shadow-[0_10px_30px_rgba(15,23,42,0.35)] backdrop-blur-sm md:hidden"
-          >
-            <ul className="space-y-1">
-              {menuItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    aria-current={isActiveRoute(item.href) ? "page" : undefined}
-                    className={`block rounded-xl px-3 py-2 text-[16px] font-semibold text-white/95 transition ${isActiveRoute(item.href)
-                      ? "bg-white/15 text-white underline underline-offset-4"
-                      : "hover:bg-white/10 hover:text-white"
-                      }`}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </>
-      ) : null}
     </header>
   );
 }

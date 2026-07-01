@@ -15,7 +15,6 @@ import MarcasPagination from "@/components/marcas/MarcasPagination";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import SmartSearchBar from "@/components/search/SmartSearchBar";
 import { searchProductos } from "@/lib/api/searchApi";
-import CatalogoHero from "./CatalogoHero";
 import {
   buildProductosQuery,
   CatalogoFilters,
@@ -102,12 +101,12 @@ function OptionCheckboxItem({
   onChange: () => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-center gap-2 text-[13px] text-[#5C6776]">
+    <label className="flex cursor-pointer items-center gap-2.5 text-[13px] font-medium text-[var(--dima-ink-soft)]">
       <input
         type="checkbox"
         checked={checked}
         onChange={onChange}
-        className="h-4 w-4 rounded border-slate-300 accent-[#F54029]"
+        className="h-4 w-4 rounded border-[var(--dima-line)] accent-[var(--dima-primary)]"
       />
       <span className="line-clamp-1">{name}</span>
     </label>
@@ -364,26 +363,27 @@ export default function CatalogoPageContent() {
   }, [mergedCategoryOptions, selectedCategoria]);
 
   return (
-    <div className="min-h-screen bg-[#E8E8E8]">
-      <CatalogoHero />
+    <div className="relative min-h-screen overflow-hidden bg-[var(--dima-page)]">
+      <div className="pointer-events-none absolute inset-x-0 top-[80px] h-[420px] bg-[radial-gradient(circle_at_16%_10%,rgba(125,167,255,0.3),transparent_28%),radial-gradient(circle_at_85%_24%,rgba(37,76,169,0.16),transparent_26%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-[80px] h-[420px] bg-[radial-gradient(circle_at_76%_42%,rgba(125,167,255,0.22),transparent_24%),radial-gradient(circle_at_18%_74%,rgba(37,76,169,0.12),transparent_26%)]" />
 
-      <section className="relative z-10 -mt-10 pb-16 md:-mt-12">
-        <div className="mx-auto w-full max-w-[1500px] px-6 sm:px-8 lg:px-10">
+      <section className="relative z-10 pt-7 pb-20 sm:pt-8">
+        <div className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-10">
           <Breadcrumbs
-            className="mb-4"
+            className="mb-5"
             items={[
               { label: "Inicio", href: "/" },
               { label: "Catálogo" },
             ]}
           />
 
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-[260px_minmax(0,1fr)]">
-            <aside className="overflow-hidden rounded-[22px] bg-[#E2E5EA] shadow-[0_10px_26px_rgba(15,23,42,0.12)]">
-              <div className="bg-[#5F6B76] px-4 py-3 text-center text-[13px] font-semibold uppercase tracking-[0.06em] text-white">
-                Filtro
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-[280px_minmax(0,1fr)]">
+            <aside className="overflow-hidden rounded-[34px] border border-[var(--dima-line)] bg-white shadow-[var(--dima-shadow)]">
+              <div className="bg-[linear-gradient(135deg,var(--dima-primary)_0%,var(--dima-primary-strong)_100%)] px-5 py-4 text-center text-[13px] font-bold uppercase tracking-[0.16em] text-white">
+                Filtros inteligentes
               </div>
 
-              <div className="space-y-4 p-4">
+              <div className="space-y-4 p-4 sm:p-5">
                 <SmartSearchBar
                   value={searchInput}
                   onValueChange={setSearchInput}
@@ -397,18 +397,18 @@ export default function CatalogoPageContent() {
                     categoria: selectedCategoria || undefined,
                   }}
                   formClassName="relative flex items-center"
-                  inputClassName="h-9 w-full rounded-full border border-[#D4D9E1] bg-white px-3 pr-10 text-[13px] text-[#4E5968] placeholder:text-[#9AA3AE] outline-none transition focus:border-[#F54029]/60"
-                  buttonClassName="absolute right-2 top-1/2 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-[#F54029] transition hover:bg-[#F54029]/10 disabled:opacity-50"
+                  inputClassName="h-11 w-full rounded-full border border-[var(--dima-line)] bg-[var(--dima-surface-soft)] px-4 pr-10 text-[13px] text-[var(--dima-ink)] placeholder:text-[var(--dima-ink-soft)] outline-none transition focus:border-[var(--dima-primary)] focus:bg-white"
+                  buttonClassName="absolute right-2 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-[var(--dima-primary)] transition hover:bg-[rgba(37,76,169,0.08)] disabled:opacity-50"
                   dropdownClassName="top-full mt-2"
                 />
 
-                <div className="space-y-2 rounded-[14px] bg-[#EEF1F5] p-3">
+                <div className="space-y-2 rounded-[24px] border border-[var(--dima-line)] bg-[var(--dima-surface-soft)] p-4">
                   <button
                     type="button"
-                    className="flex w-full items-center justify-between text-left text-[13px] font-semibold text-[#5E6979]"
+                    className="flex w-full items-center justify-between text-left text-[13px] font-bold uppercase tracking-[0.08em] text-[var(--dima-ink)]"
                   >
                     <span>Marca</span>
-                    <ChevronIcon className="h-4 w-4 text-[#F54029]" />
+                    <ChevronIcon className="h-4 w-4 text-[var(--dima-primary)]" />
                   </button>
 
                   <div className="max-h-[130px] space-y-1.5 overflow-y-auto pr-1">
@@ -430,13 +430,13 @@ export default function CatalogoPageContent() {
                   </div>
                 </div>
 
-                <div className="space-y-2 rounded-[14px] bg-[#EEF1F5] p-3">
+                <div className="space-y-2 rounded-[24px] border border-[var(--dima-line)] bg-[var(--dima-surface-soft)] p-4">
                   <button
                     type="button"
-                    className="flex w-full items-center justify-between text-left text-[13px] font-semibold text-[#5E6979]"
+                    className="flex w-full items-center justify-between text-left text-[13px] font-bold uppercase tracking-[0.08em] text-[var(--dima-ink)]"
                   >
                     <span>Categoría</span>
-                    <ChevronIcon className="h-4 w-4 text-[#F54029]" />
+                    <ChevronIcon className="h-4 w-4 text-[var(--dima-primary)]" />
                   </button>
 
                   <div className="max-h-[130px] space-y-1.5 overflow-y-auto pr-1">
@@ -461,10 +461,10 @@ export default function CatalogoPageContent() {
                 <button
                   type="button"
                   onClick={() => setFiltersAndUrl({ nuevo: nuevoOnly ? "" : 1, page: 1 })}
-                  className={`flex h-9 w-full items-center justify-center rounded-full border text-[12px] font-medium transition ${
+                  className={`flex h-11 w-full items-center justify-center rounded-full border text-[12px] font-bold uppercase tracking-[0.08em] transition ${
                     nuevoOnly
-                      ? "border-[#F54029] bg-[#F54029] text-white"
-                      : "border-[#AEB6C2] bg-white text-[#5B6676] hover:border-[#F54029] hover:text-[#F54029]"
+                      ? "border-[var(--dima-accent)] bg-[var(--dima-accent)] text-white"
+                      : "border-[var(--dima-line)] bg-white text-[var(--dima-ink-soft)] hover:border-[var(--dima-primary)] hover:text-[var(--dima-primary)]"
                   }`}
                 >
                   Productos nuevos
@@ -475,17 +475,17 @@ export default function CatalogoPageContent() {
                   onClick={() =>
                     setFiltersAndUrl({ destacado: destacadoOnly ? "" : 1, page: 1 })
                   }
-                  className={`flex h-9 w-full items-center justify-center rounded-full border text-[12px] font-medium transition ${
+                  className={`flex h-11 w-full items-center justify-center rounded-full border text-[12px] font-bold uppercase tracking-[0.08em] transition ${
                     destacadoOnly
-                      ? "border-[#F54029] bg-[#F54029] text-white"
-                      : "border-[#AEB6C2] bg-white text-[#5B6676] hover:border-[#F54029] hover:text-[#F54029]"
+                      ? "border-[var(--dima-primary)] bg-[var(--dima-primary)] text-white"
+                      : "border-[var(--dima-line)] bg-white text-[var(--dima-ink-soft)] hover:border-[var(--dima-primary)] hover:text-[var(--dima-primary)]"
                   }`}
                 >
                   Productos destacados
                 </button>
 
                 {hasFilterError ? (
-                  <p className="text-center text-[12px] text-[#D33E2B]">
+                  <p className="text-center text-[12px] text-[#C94734]">
                     No se pudieron cargar todos los filtros.
                   </p>
                 ) : null}
@@ -493,15 +493,15 @@ export default function CatalogoPageContent() {
             </aside>
 
             <div className="min-w-0">
-              <div className="rounded-[22px] bg-[#DDE1E7] p-2 shadow-[0_8px_20px_rgba(15,23,42,0.10)]">
+              <div className="rounded-[30px] border border-[var(--dima-line)] bg-white/90 p-2 shadow-[0_12px_30px_rgba(20,49,116,0.12)] backdrop-blur-[2px]">
                 <div className="flex gap-2 overflow-x-auto">
                   <button
                     type="button"
                     onClick={() => handleTabClick("")}
-                    className={`shrink-0 rounded-full px-4 py-2 text-[13px] font-medium transition ${
+                    className={`shrink-0 rounded-full px-4 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] transition ${
                       !selectedCategoria
-                        ? "bg-white text-[#F54029]"
-                        : "text-[#54606F] hover:bg-white/70"
+                        ? "bg-[var(--dima-primary)] text-white shadow-[0_12px_24px_rgba(32,68,148,0.2)]"
+                        : "text-[var(--dima-ink-soft)] hover:bg-[var(--dima-surface-soft)]"
                     }`}
                   >
                     Todos
@@ -512,10 +512,10 @@ export default function CatalogoPageContent() {
                       key={category.id}
                       type="button"
                       onClick={() => handleTabClick(category.id)}
-                      className={`shrink-0 rounded-full px-4 py-2 text-[13px] font-medium transition ${
+                      className={`shrink-0 rounded-full px-4 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] transition ${
                         selectedCategoria === category.id
-                          ? "bg-white text-[#F54029]"
-                          : "text-[#54606F] hover:bg-white/70"
+                          ? "bg-[var(--dima-accent)] text-white shadow-[0_12px_24px_rgba(40,196,79,0.18)]"
+                          : "text-[var(--dima-ink-soft)] hover:bg-[var(--dima-surface-soft)]"
                       }`}
                     >
                       {category.nombre}
@@ -526,24 +526,27 @@ export default function CatalogoPageContent() {
 
               <div className="mt-5">
                 {hasProductsError ? (
-                  <div className="rounded-[22px] bg-white px-8 py-14 text-center shadow-[0_12px_30px_rgba(15,23,42,0.12)]">
-                    <p className="text-lg text-[#5D6673]">
+                  <div className="rounded-[32px] border border-[var(--dima-line)] bg-white px-8 py-14 text-center shadow-[var(--dima-shadow)]">
+                    <p className="text-lg text-[var(--dima-ink-soft)]">
                       No se pudieron cargar los productos del catálogo.
                     </p>
                   </div>
                 ) : isLoadingProducts ? (
-                  <div className="grid grid-cols-1 justify-items-center gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  <div className="grid grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {Array.from({ length: 12 }).map((_, index) => (
                       <ProductCardSkeleton key={index} index={index} />
                     ))}
                   </div>
                 ) : isEmpty ? (
-                  <div className="rounded-[22px] bg-white px-8 py-14 text-center shadow-[0_12px_30px_rgba(15,23,42,0.12)]">
-                    <p className="text-lg text-[#5D6673]">No se encontraron productos.</p>
+                  <div className="rounded-[32px] border border-[var(--dima-line)] bg-white px-8 py-14 text-center shadow-[var(--dima-shadow)]">
+                    <p className="text-lg text-[var(--dima-ink-soft)]">No se encontraron productos.</p>
                   </div>
                 ) : (
                   <>
-                    <div className="grid grid-cols-1 justify-items-center gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <div
+                      id="catalogo-grid"
+                      className="grid grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                    >
                       {visibleProducts.map((product) => (
                         <BrandProductCard key={product.id} product={product} />
                       ))}

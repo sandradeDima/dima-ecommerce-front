@@ -41,7 +41,7 @@ export default function ChatFabButton({
       type="button"
       onClick={onClick}
       aria-label={isOpen ? "Cerrar chat" : "Abrir chat"}
-      className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#F54029] text-white shadow-[0_10px_24px_rgba(15,23,42,0.28)] transition-transform duration-200 hover:scale-105 hover:brightness-105"
+      className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[var(--dima-primary)] text-white shadow-[0_12px_28px_rgba(18,50,118,0.34)] transition-transform duration-200 hover:scale-105 hover:brightness-105"
     >
       {isOpen ? <CloseIcon /> : <ChatIcon />}
 
