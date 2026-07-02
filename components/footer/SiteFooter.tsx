@@ -161,7 +161,7 @@ function SocialLink({ item }: { item: RedSocialItem }) {
       rel="noopener noreferrer"
       aria-label={item.nombre || "Red social"}
       title={item.nombre || "Red social"}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/28 bg-white/10 text-white transition hover:bg-white/18"
+      className="inline-flex h-10 w-10 items-center justify-center border border-white/28 bg-white/10 text-white transition hover:bg-white/18"
     >
       {iconUrl ? (
         <img
@@ -228,7 +228,7 @@ export default function SiteFooter() {
 
   return (
     <>
-      <footer className="relative overflow-hidden bg-[linear-gradient(135deg,#17377f_0%,#234aa8_48%,#294fa9_100%)] text-white">
+      <footer className="relative overflow-hidden rounded-t-[40px] bg-[linear-gradient(135deg,#17377f_0%,#234aa8_48%,#294fa9_100%)] text-white shadow-[0_-12px_40px_rgba(0,0,0,0.2)]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(125,167,255,0.26),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.08),transparent_22%)]" />
 
         <div className="relative mx-auto max-w-[1680px] px-5 py-14 sm:px-8 lg:px-10">
@@ -306,7 +306,7 @@ export default function SiteFooter() {
                 </a>
               </div>
 
-              <div className="inline-flex items-center justify-center rounded-[28px] border border-white/22 bg-white/8 px-5 py-4 shadow-[0_18px_34px_rgba(9,22,56,0.22)]">
+              <div className="inline-flex items-center justify-center px-5 py-4">
                 <Image
                   src={isoBadge}
                   alt="Certificación ISO 9001"

@@ -377,7 +377,7 @@ export default function CatalogoPageContent() {
             ]}
           />
 
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-[280px_minmax(0,1fr)]">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
             <aside className="overflow-hidden rounded-[34px] border border-[var(--dima-line)] bg-white shadow-[var(--dima-shadow)]">
               <div className="bg-[linear-gradient(135deg,var(--dima-primary)_0%,var(--dima-primary-strong)_100%)] px-5 py-4 text-center text-[13px] font-bold uppercase tracking-[0.16em] text-white">
                 Filtros inteligentes
