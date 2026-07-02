@@ -326,19 +326,29 @@ export default function CheckoutModal({
   };
 
   const handleSubmit = async () => {
+    console.log("[CheckoutModal] handleSubmit start", {
+      values,
+      itemsCount: items.length,
+      companyInfo,
+    });
+
     const errors = validateCheckoutForm(values);
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
       setSubmitError("Completa los campos obligatorios para continuar.");
+      console.warn("[CheckoutModal] validation errors", errors);
       return;
     }
 
     if (items.length === 0) {
       setSubmitError("Tu carrito esta vacio.");
+      console.warn("[CheckoutModal] empty cart");
       return;
     }
 
     const whatsappNumber = resolveCompanyWhatsappNumber(companyInfo);
+    console.log("[CheckoutModal] resolved whatsappNumber", whatsappNumber);
+
     if (!whatsappNumber) {
       setSubmitError("No hay un numero de WhatsApp valido configurado para Dima.");
       return;
@@ -350,12 +360,16 @@ export default function CheckoutModal({
       origin: window.location.origin,
     });
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    console.log("[CheckoutModal] whatsappUrl", whatsappUrl);
+
     const popup = window.open("", "_blank", "noopener,noreferrer");
+    console.log("[CheckoutModal] popup created", popup);
 
     if (!popup) {
       setSubmitError(
         "No se pudo abrir WhatsApp. Revisa el bloqueo de ventanas emergentes e intenta de nuevo.",
       );
+      console.warn("[CheckoutModal] popup blocked");
       return;
     }
 
@@ -370,13 +384,18 @@ export default function CheckoutModal({
         whatsappNumber,
         whatsappUrl,
       });
+      console.log("[CheckoutModal] createCheckoutPedido payload", payload);
 
       await createCheckoutPedido(payload);
+      console.log("[CheckoutModal] createCheckoutPedido success, redirecting popup");
       popup.opener = null;
       popup.location.href = whatsappUrl;
       onCheckoutSuccess();
-    } catch {
-      popup.close();
+    } catch (error: unknown) {
+      console.error("[CheckoutModal] createCheckoutPedido failed", error);
+      if (popup && !popup.closed) {
+        popup.close();
+      }
       setSubmitError(
         "No pudimos registrar tu pedido en este momento. Intenta nuevamente en unos segundos.",
       );
