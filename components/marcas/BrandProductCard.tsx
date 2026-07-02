@@ -11,6 +11,46 @@ type BrandProductCardProps = {
   product: ProductoItem;
 };
 
+function isPrecioVisible(value: unknown): boolean {
+  if (value === true || value === 1) return true;
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase();
+    return ["1", "true", "si", "sí", "yes"].includes(normalized);
+  }
+  return false;
+}
+
+function formatProductPrice(product: ProductoItem): string | null {
+  const rawValue = product.precio;
+  if (rawValue == null || rawValue === "") {
+    return null;
+  }
+
+  const value = typeof rawValue === "number"
+    ? rawValue
+    : Number(String(rawValue).replace(/[^0-9.,-]/g, "").replace(/,/g, "."));
+
+  if (!Number.isFinite(value)) {
+    return null;
+  }
+
+  const currencyCode = product.moneda?.trim().toUpperCase() || "BOB";
+
+  try {
+    return new Intl.NumberFormat("es-BO", {
+      style: "currency",
+      currency: currencyCode,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    }).format(value);
+  } catch {
+    return `${new Intl.NumberFormat("es-BO", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    }).format(value)} ${currencyCode}`;
+  }
+}
+
 export default function BrandProductCard({ product }: BrandProductCardProps) {
   const productHref = `/producto/${product.slug}`;
   const imageUrl = buildImageUrl(product.imagen_principal);
@@ -76,6 +116,12 @@ export default function BrandProductCard({ product }: BrandProductCardProps) {
             {description}
           </p>
         </Link>
+
+        {isPrecioVisible(product.precio_visible) ? (
+          <div className="mt-3 text-[16px] font-semibold text-[var(--dima-ink)]">
+            {formatProductPrice(product) ?? "Consultar precio"}
+          </div>
+        ) : null}
 
         <div className="mx-auto mt-auto flex w-full max-w-[250px] flex-col gap-2">
           <AddToCartButton

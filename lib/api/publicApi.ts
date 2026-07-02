@@ -535,6 +535,7 @@ export type ProductoItem = {
   moneda?: string | null;
   precio?: number | string | null;
   precio_referencial?: number | string | null;
+  precio_visible?: boolean | number | string | null;
   marca_id: number | null;
   categoria_id: number | null;
   subcategoria_id?: number | null;
