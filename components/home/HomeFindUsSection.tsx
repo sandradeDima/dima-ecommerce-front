@@ -274,7 +274,7 @@ export default function HomeFindUsSection() {
                 <div className="h-[280px] rounded-[24px] bg-slate-100 p-3 sm:h-[320px] sm:p-4 xl:h-full">
                   <iframe
                     src={mapEmbedSrc}
-                    title="Mapa de ubicación DMC"
+                    title="Mapa de ubicación DIMA"
                     className="h-full w-full rounded-[18px] border-0"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"

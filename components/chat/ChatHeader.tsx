@@ -25,7 +25,7 @@ export default function ChatHeader({
   return (
     <div className="flex items-start justify-between gap-3 rounded-t-2xl bg-[#1f2329] px-4 py-3 text-white">
       <div className="min-w-0">
-        <p className="text-sm font-semibold">Chat DMC</p>
+        <p className="text-sm font-semibold">Chat DIMA</p>
         <div className="mt-1">
           <ChatStatusBadge
             mode={mode}

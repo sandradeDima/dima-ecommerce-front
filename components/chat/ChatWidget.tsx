@@ -40,7 +40,7 @@ import {
 import type { ChatMode, ChatUiMessage } from "./chatTypes";
 
 const BOT_WELCOME_MESSAGE =
-  "Hola, soy el asistente de DMC. Selecciona una opción para ayudarte mejor.";
+  "Hola, soy el asistente de DIMA. Selecciona una opción para ayudarte mejor.";
 
 function readStoredToken(): string | null {
   if (typeof window === "undefined") {
