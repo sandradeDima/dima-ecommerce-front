@@ -362,16 +362,8 @@ export default function CheckoutModal({
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     console.log("[CheckoutModal] whatsappUrl", whatsappUrl);
 
-    const popup = window.open("", "_blank", "noopener,noreferrer");
+    const popup = window.open("about:blank", "_blank", "noopener,noreferrer");
     console.log("[CheckoutModal] popup created", popup);
-
-    if (!popup) {
-      setSubmitError(
-        "No se pudo abrir WhatsApp. Revisa el bloqueo de ventanas emergentes e intenta de nuevo.",
-      );
-      console.warn("[CheckoutModal] popup blocked");
-      return;
-    }
 
     setSubmitError(null);
     setIsSubmitting(true);
@@ -387,9 +379,16 @@ export default function CheckoutModal({
       console.log("[CheckoutModal] createCheckoutPedido payload", payload);
 
       await createCheckoutPedido(payload);
-      console.log("[CheckoutModal] createCheckoutPedido success, redirecting popup");
-      popup.opener = null;
-      popup.location.href = whatsappUrl;
+      console.log("[CheckoutModal] createCheckoutPedido success");
+
+      if (popup) {
+        popup.opener = null;
+        popup.location.href = whatsappUrl;
+      } else {
+        console.warn("[CheckoutModal] popup blocked, falling back to same-tab redirect");
+        window.location.assign(whatsappUrl);
+      }
+
       onCheckoutSuccess();
     } catch (error: unknown) {
       console.error("[CheckoutModal] createCheckoutPedido failed", error);
