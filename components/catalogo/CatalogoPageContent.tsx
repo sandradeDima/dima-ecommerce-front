@@ -13,8 +13,11 @@ import {
 import BrandProductCard from "@/components/marcas/BrandProductCard";
 import MarcasPagination from "@/components/marcas/MarcasPagination";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { MailIcon, WhatsAppIcon } from "@/components/contact/ContactIcons";
 import SmartSearchBar from "@/components/search/SmartSearchBar";
 import { searchProductos } from "@/lib/api/searchApi";
+import { getInformacion } from "@/lib/api/publicApi";
+import { resolveCompanyWhatsappNumber } from "@/lib/cart/cartUtils";
 import {
   buildProductosQuery,
   CatalogoFilters,
@@ -113,6 +116,8 @@ function OptionCheckboxItem({
   );
 }
 
+const CONTACT_FORM_URL = "https://dima.com.bo/contacto_directo";
+
 export default function CatalogoPageContent() {
   const router = useRouter();
   const pathname = usePathname();
@@ -148,6 +153,7 @@ export default function CatalogoPageContent() {
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
   const [hasFilterError, setHasFilterError] = useState(false);
   const [hasProductsError, setHasProductsError] = useState(false);
+  const [whatsAppUrl, setWhatsAppUrl] = useState<string | null>(null);
 
   useEffect(() => {
     setSearchInput(requestedFilters.nombre);
@@ -190,6 +196,30 @@ export default function CatalogoPageContent() {
     };
 
     void loadFilterOptions();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    const loadWhatsappUrl = async () => {
+      try {
+        const response = await getInformacion();
+        if (isCancelled) return;
+
+        const number = resolveCompanyWhatsappNumber(response?.Informacion ?? null);
+        setWhatsAppUrl(number ? `https://wa.me/${number}` : null);
+      } catch {
+        if (!isCancelled) {
+          setWhatsAppUrl(null);
+        }
+      }
+    };
+
+    void loadWhatsappUrl();
 
     return () => {
       isCancelled = true;
@@ -364,8 +394,8 @@ export default function CatalogoPageContent() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[var(--dima-page)]">
-      <div className="pointer-events-none absolute inset-x-0 top-[80px] h-[420px] bg-[radial-gradient(circle_at_16%_10%,rgba(125,167,255,0.3),transparent_28%),radial-gradient(circle_at_85%_24%,rgba(37,76,169,0.16),transparent_26%)]" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-[80px] h-[420px] bg-[radial-gradient(circle_at_76%_42%,rgba(125,167,255,0.22),transparent_24%),radial-gradient(circle_at_18%_74%,rgba(37,76,169,0.12),transparent_26%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-[80px] h-[420px] bg-[radial-gradient(circle_at_16%_10%,rgba(150,152,168,0.24),transparent_28%),radial-gradient(circle_at_85%_24%,rgba(0,72,153,0.16),transparent_26%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-[80px] h-[420px] bg-[radial-gradient(circle_at_76%_42%,rgba(150,152,168,0.2),transparent_24%),radial-gradient(circle_at_18%_74%,rgba(0,72,153,0.12),transparent_26%)]" />
 
       <section className="relative z-10 pt-7 pb-20 sm:pt-8">
         <div className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-10">
@@ -458,32 +488,6 @@ export default function CatalogoPageContent() {
                   </div>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => setFiltersAndUrl({ nuevo: nuevoOnly ? "" : 1, page: 1 })}
-                  className={`flex h-11 w-full items-center justify-center rounded-full border text-[12px] font-bold uppercase tracking-[0.08em] transition ${
-                    nuevoOnly
-                      ? "border-[var(--dima-accent)] bg-[var(--dima-accent)] text-white"
-                      : "border-[var(--dima-line)] bg-white text-[var(--dima-ink-soft)] hover:border-[var(--dima-primary)] hover:text-[var(--dima-primary)]"
-                  }`}
-                >
-                  Productos nuevos
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    setFiltersAndUrl({ destacado: destacadoOnly ? "" : 1, page: 1 })
-                  }
-                  className={`flex h-11 w-full items-center justify-center rounded-full border text-[12px] font-bold uppercase tracking-[0.08em] transition ${
-                    destacadoOnly
-                      ? "border-[var(--dima-primary)] bg-[var(--dima-primary)] text-white"
-                      : "border-[var(--dima-line)] bg-white text-[var(--dima-ink-soft)] hover:border-[var(--dima-primary)] hover:text-[var(--dima-primary)]"
-                  }`}
-                >
-                  Productos destacados
-                </button>
-
                 {hasFilterError ? (
                   <p className="text-center text-[12px] text-[#C94734]">
                     No se pudieron cargar todos los filtros.
@@ -493,14 +497,14 @@ export default function CatalogoPageContent() {
             </aside>
 
             <div className="min-w-0">
-              <div className="rounded-[30px] border border-[var(--dima-line)] bg-white/90 p-2 shadow-[0_12px_30px_rgba(20,49,116,0.12)] backdrop-blur-[2px]">
+              <div className="rounded-[30px] border border-[var(--dima-line)] bg-white/90 p-2 shadow-[0_12px_30px_rgba(0,72,153,0.12)] backdrop-blur-[2px]">
                 <div className="flex gap-2 overflow-x-auto">
                   <button
                     type="button"
                     onClick={() => handleTabClick("")}
                     className={`shrink-0 rounded-full px-4 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] transition ${
                       !selectedCategoria
-                        ? "bg-[var(--dima-primary)] text-white shadow-[0_12px_24px_rgba(32,68,148,0.2)]"
+                        ? "bg-[var(--dima-primary)] text-white shadow-[0_12px_24px_rgba(0,72,153,0.2)]"
                         : "text-[var(--dima-ink-soft)] hover:bg-[var(--dima-surface-soft)]"
                     }`}
                   >
@@ -514,7 +518,7 @@ export default function CatalogoPageContent() {
                       onClick={() => handleTabClick(category.id)}
                       className={`shrink-0 rounded-full px-4 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] transition ${
                         selectedCategoria === category.id
-                          ? "bg-[var(--dima-accent)] text-white shadow-[0_12px_24px_rgba(40,196,79,0.18)]"
+                          ? "bg-[var(--dima-accent)] text-white shadow-[0_12px_24px_rgba(0,72,153,0.18)]"
                           : "text-[var(--dima-ink-soft)] hover:bg-[var(--dima-surface-soft)]"
                       }`}
                     >
@@ -562,6 +566,37 @@ export default function CatalogoPageContent() {
               </div>
             </div>
           </div>
+
+          <section className="mt-10 flex flex-col items-center justify-between gap-5 rounded-[30px] border border-[var(--dima-line)] bg-white px-6 py-7 text-center shadow-[0_16px_34px_rgba(0,72,153,0.1)] sm:px-8 lg:flex-row lg:text-left">
+            <p className="max-w-[62ch] text-[15px] font-semibold leading-relaxed text-[var(--dima-ink)] sm:text-[17px]">
+              ¿Requieres un producto que no está en la tienda virtual?{" "}
+              <span className="text-[var(--dima-primary)]">¡Contáctanos!</span>
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-end">
+              <a
+                href={CONTACT_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[var(--dima-primary)] px-5 text-[12px] font-bold uppercase tracking-[0.08em] text-[var(--dima-primary)] transition-[transform,background-color,color] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-[1.02] hover:bg-[var(--dima-primary)] hover:text-white focus-visible:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--dima-primary)]"
+              >
+                <MailIcon className="h-4 w-4" />
+                Formulario de contacto
+              </a>
+
+              {whatsAppUrl ? (
+                <a
+                  href={whatsAppUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#19b943] px-5 text-[12px] font-bold uppercase tracking-[0.08em] text-white shadow-[0_10px_20px_rgba(25,185,67,0.22)] transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-[1.02] hover:shadow-[0_14px_26px_rgba(25,185,67,0.32)] focus-visible:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#19b943]"
+                >
+                  <WhatsAppIcon className="h-4 w-4" />
+                  WhatsApp
+                </a>
+              ) : null}
+            </div>
+          </section>
         </div>
       </section>
     </div>

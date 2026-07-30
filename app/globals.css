@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f4f8ff;
-  --foreground: #16356c;
-  --dima-page: #f4f8ff;
-  --dima-surface: #ffffff;
-  --dima-surface-soft: #e6eefb;
-  --dima-surface-muted: #d8e5fb;
-  --dima-primary: #254ca9;
-  --dima-primary-strong: #17377f;
-  --dima-primary-soft: #7da7ff;
-  --dima-accent: #28c44f;
-  --dima-accent-strong: #1eaa42;
-  --dima-ink: #17356b;
-  --dima-ink-soft: #4a658f;
-  --dima-line: rgba(34, 76, 168, 0.18);
-  --dima-shadow: 0 22px 52px rgba(29, 63, 136, 0.14);
+  --background: #f6f7fa;
+  --foreground: #202d42;
+  --dima-page: #f6f7fa;
+  --dima-surface: #fdfdfe;
+  --dima-surface-soft: #ececf1;
+  --dima-surface-muted: #dedfe6;
+  --dima-primary: #004899;
+  --dima-primary-strong: #003b7e;
+  --dima-primary-soft: #9698a8;
+  --dima-accent: #004899;
+  --dima-accent-strong: #003b7e;
+  --dima-ink: #202d42;
+  --dima-ink-soft: #596276;
+  --dima-line: rgba(0, 72, 153, 0.18);
+  --dima-shadow: 0 22px 52px rgba(0, 72, 153, 0.14);
 }
 
 @theme inline {
@@ -34,9 +34,9 @@ body {
   color: var(--foreground);
   font-family: var(--font-dima-body), sans-serif;
   background-image:
-    radial-gradient(circle at top left, rgba(125, 167, 255, 0.22), transparent 28%),
-    radial-gradient(circle at top right, rgba(37, 76, 169, 0.1), transparent 24%),
-    linear-gradient(180deg, #f8fbff 0%, #edf4ff 100%);
+    radial-gradient(circle at top left, rgba(0, 72, 153, 0.12), transparent 28%),
+    radial-gradient(circle at top right, rgba(150, 152, 168, 0.16), transparent 24%),
+    linear-gradient(180deg, #fafafb 0%, #f1f2f5 100%);
 }
 
 h1,
@@ -49,8 +49,8 @@ h6 {
 }
 
 ::selection {
-  background: rgba(37, 76, 169, 0.2);
-  color: #16356c;
+  background: rgba(0, 72, 153, 0.2);
+  color: #202d42;
 }
 
 button:not(:disabled),
@@ -81,4 +81,15 @@ input[type="reset"]:disabled {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

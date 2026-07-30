@@ -34,19 +34,16 @@ export default function TopMenuBar({ className = "" }: TopMenuBarProps) {
 
   return (
     <header
-      className={`sticky top-0 z-50 overflow-hidden border-b border-white/12 bg-[linear-gradient(135deg,#17377f_0%,#234aa8_55%,#1c4cae_100%)] text-white shadow-[0_18px_42px_rgba(16,39,88,0.26)] ${className}`}
+      className={`sticky top-0 z-50 overflow-hidden border-b border-white/12 bg-[linear-gradient(135deg,#003b7e_0%,#004899_55%,#195fae_100%)] text-white shadow-[0_18px_42px_rgba(0,51,111,0.26)] ${className}`}
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(125,167,255,0.26),transparent_26%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.08),transparent_55%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(150,152,168,0.26),transparent_26%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.08),transparent_55%)]" />
 
       <div className="relative mx-auto max-w-[1680px] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-4 py-4 sm:py-5 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-center lg:gap-6">
           <div className="hidden min-w-0 lg:flex lg:justify-self-start">
-            <Link
-              href="/"
-              className="inline-flex min-h-[44px] items-center rounded-full border border-white/35 bg-white/6 px-4 text-[12px] font-semibold tracking-[0.06em] text-white/95 transition hover:bg-white/12"
-            >
-              Centro de asistencia técnica
-            </Link>
+            <p className="text-[clamp(1.25rem,1.8vw,1.75rem)] font-extrabold tracking-[0.04em] text-white">
+              Tienda Virtual
+            </p>
           </div>
 
           <div className="flex items-center justify-center gap-4">
