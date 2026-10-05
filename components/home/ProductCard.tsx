@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState, type CSSProperties } from "react";
 import AddToCartButton from "@/components/cart/AddToCartButton";
 import { toPublicStorageUrl } from "@/lib/api";
+import { richTextPreview } from "@/lib/richText";
 
 export type ProductoInicioItem = {
   id: number;
@@ -37,7 +38,8 @@ export default function ProductCard({ product }: ProductCardProps) {
   const altText = product.alt_imagen?.trim() || product.nombre;
   const titleText = product.title_imagen?.trim() || product.nombre;
   const description =
-    product.descripcion_corta?.trim() || "Producto disponible en catálogo";
+    (product.descripcion_corta?.trim() && richTextPreview(product.descripcion_corta)) ||
+    "Producto disponible en catálogo";
   const showImage = Boolean(imageUrl) && brokenImageUrl !== imageUrl;
 
   return (

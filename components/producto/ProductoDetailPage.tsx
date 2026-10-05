@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { getMarcasList, getProductoDetalle, ProductoDetailItem } from "@/lib/api";
 import Breadcrumbs, { type BreadcrumbItem } from "@/components/Breadcrumbs";
 import { trackProductView } from "@/lib/analytics/ga4";
+import { sanitizeRichText } from "@/lib/richText";
 import AddToCartButton from "@/components/cart/AddToCartButton";
 import ProductImageGallery from "./ProductImageGallery";
 import RelatedProductCard from "./RelatedProductCard";
@@ -225,22 +226,28 @@ export default function ProductoDetailPage({ slug }: ProductoDetailPageProps) {
       precioReferencial: product.precio_referencial ?? null,
       marca: product.marca?.nombre ?? null,
       sku: product.sku ?? null,
-      skuDima: product.sku_dima ?? null,
     });
   }, [product]);
 
   const backHref = "/catalogo";
   const fallbackImageUrl = "/assets/heros/producto_inside.png";
   const priceLabel = product ? formatPriceOrFallback(product) : null;
-  const shortDescription = formatSpecValue(product?.descripcion_corta) ?? "Producto disponible en catálogo.";
+  const shortDescription = formatSpecValue(product?.descripcion_corta);
   const technicalDescription = formatSpecValue(product?.descripcion_tecnica);
+  const shortDescriptionHtml = useMemo(
+    () => (shortDescription ? sanitizeRichText(shortDescription) : ""),
+    [shortDescription],
+  );
+  const technicalDescriptionHtml = useMemo(
+    () => (technicalDescription ? sanitizeRichText(technicalDescription) : ""),
+    [technicalDescription],
+  );
   const productLabel = product?.nombre?.trim() || formatSlugTitle(slug) || "Producto";
   const brandLabel = product?.marca?.nombre?.trim() || "Marca";
   const categoryLabel = formatSpecValue(product?.categoria?.nombre);
 
   const specs = [
     { label: "SKU", value: formatSpecValue(product?.sku) },
-    { label: "SKU Dima", value: formatSpecValue(product?.sku_dima) },
     { label: "Categoría", value: categoryLabel },
     { label: "Subcategoría", value: formatSpecValue(product?.subcategoria?.nombre) },
     { label: "Garantía", value: formatSpecValue(product?.garantia) },
@@ -325,9 +332,16 @@ export default function ProductoDetailPage({ slug }: ProductoDetailPageProps) {
                         {product.nombre}
                       </h1>
 
-                      <p className="mt-4 max-w-[38ch] text-[15px] leading-7 text-white/82">
-                        {shortDescription}
-                      </p>
+                      {shortDescriptionHtml ? (
+                        <div
+                          className="mt-4 max-w-[38ch] text-[15px] leading-7 text-white/82 [&_a]:text-white [&_a]:underline [&_li]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_ul]:list-disc [&_ul]:pl-5"
+                          dangerouslySetInnerHTML={{ __html: shortDescriptionHtml }}
+                        />
+                      ) : (
+                        <p className="mt-4 max-w-[38ch] text-[15px] leading-7 text-white/82">
+                          Producto disponible en catálogo.
+                        </p>
+                      )}
 
                       <div className="mt-6">
                         <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-white/68">
@@ -403,9 +417,9 @@ export default function ProductoDetailPage({ slug }: ProductoDetailPageProps) {
                   <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[var(--dima-primary)]">
                     Detalle técnico
                   </p>
-                  <div className="mt-4 max-w-[72ch] text-[15px] leading-8 text-[var(--dima-ink-soft)]">
-                    {technicalDescription ? (
-                      <p>{technicalDescription}</p>
+                  <div className="mt-4 max-w-[72ch] text-[15px] leading-8 text-[var(--dima-ink-soft)] [&_a]:text-[var(--dima-primary)] [&_a]:underline [&_li]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_ul]:list-disc [&_ul]:pl-5">
+                    {technicalDescriptionHtml ? (
+                      <div dangerouslySetInnerHTML={{ __html: technicalDescriptionHtml }} />
                     ) : (
                       <p>
                         Este producto no tiene un detalle técnico extendido publicado todavía.

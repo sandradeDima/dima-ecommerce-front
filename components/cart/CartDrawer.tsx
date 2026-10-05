@@ -301,11 +301,7 @@ export default function CartDrawer() {
                                 {item.nombre}
                               </Link>
                               <div className="mt-1 space-y-1 text-[12px] text-[var(--dima-ink-soft)]">
-                                {item.skuDima ? <p>SKU Dima: {item.skuDima}</p> : null}
-                                {item.sku &&
-                                item.sku !== item.skuDima ? (
-                                  <p>SKU: {item.sku}</p>
-                                ) : null}
+                                {item.sku ? <p>SKU: {item.sku}</p> : null}
                                 {item.marca ? <p>Marca: {item.marca}</p> : null}
                                 {item.categoria ? <p>Categoria: {item.categoria}</p> : null}
                                 {item.subcategoria ? <p>Subcategoria: {item.subcategoria}</p> : null}

@@ -212,7 +212,6 @@ function coerceStoredCartItem(value: unknown): CartItem | null {
     nombre,
     slug,
     sku: cleanText(record.sku),
-    skuDima: cleanText(record.skuDima),
     marca: cleanText(record.marca),
     marcaSlug: cleanText(record.marcaSlug),
     categoria: cleanText(record.categoria),
@@ -343,7 +342,6 @@ export function buildCartItemFromProduct(
     nombre,
     slug,
     sku: cleanText(source.sku),
-    skuDima: cleanText(source.sku_dima),
     marca: marca.name,
     marcaSlug: marca.slug,
     categoria: categoria.name,
@@ -375,7 +373,6 @@ export function mergeCartItems(currentItem: CartItem, nextItem: CartItem): CartI
     nombre: nextItem.nombre || currentItem.nombre,
     slug: nextItem.slug || currentItem.slug,
     sku: nextItem.sku ?? currentItem.sku,
-    skuDima: nextItem.skuDima ?? currentItem.skuDima,
     marca: nextItem.marca ?? currentItem.marca,
     marcaSlug: nextItem.marcaSlug ?? currentItem.marcaSlug,
     categoria: nextItem.categoria ?? currentItem.categoria,
@@ -522,11 +519,7 @@ export function buildWhatsAppCheckoutMessage(params: {
   items.forEach((item, index) => {
     lines.push(`${index + 1}. Producto: ${item.nombre}`);
 
-    if (item.skuDima) {
-      lines.push(`SKU Dima: ${item.skuDima}`);
-    }
-
-    if (item.sku && item.sku !== item.skuDima) {
+    if (item.sku) {
       lines.push(`SKU: ${item.sku}`);
     }
 

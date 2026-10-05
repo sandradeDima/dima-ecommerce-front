@@ -15,7 +15,6 @@ export type CartProductSource = {
   name?: string | null;
   slug?: string | null;
   sku?: string | null;
-  sku_dima?: string | null;
   marca?: CartEntityLike;
   categoria?: CartEntityLike;
   subcategoria?: CartEntityLike;
@@ -38,7 +37,6 @@ export type CartItem = {
   nombre: string;
   slug: string;
   sku: string | null;
-  skuDima: string | null;
   marca: string | null;
   marcaSlug: string | null;
   categoria: string | null;

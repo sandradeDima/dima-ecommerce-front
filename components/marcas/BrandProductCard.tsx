@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import AddToCartButton from "@/components/cart/AddToCartButton";
 import { ProductoItem } from "@/lib/api";
+import { richTextPreview } from "@/lib/richText";
 import { buildImageUrl } from "./marcasUtils";
 
 type BrandProductCardProps = {
@@ -58,7 +59,8 @@ export default function BrandProductCard({ product }: BrandProductCardProps) {
   const altText = product.alt_imagen?.trim() || product.nombre;
   const titleText = product.title_imagen?.trim() || product.nombre;
   const description =
-    product.descripcion_corta?.trim() || "Producto disponible en catálogo";
+    (product.descripcion_corta?.trim() && richTextPreview(product.descripcion_corta)) ||
+    "Producto disponible en catálogo";
   const showImage = Boolean(imageUrl) && brokenImageUrl !== imageUrl;
 
   return (

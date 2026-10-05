@@ -3,6 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import AddToCartButton from "@/components/cart/AddToCartButton";
+import { richTextPreview } from "@/lib/richText";
 import { RelatedProductCardItem, buildImageUrl } from "./productoUtils";
 
 type RelatedProductCardProps = {
@@ -17,7 +18,8 @@ export default function RelatedProductCard({ product }: RelatedProductCardProps)
   const altText = product.alt_imagen?.trim() || product.nombre;
   const titleText = product.title_imagen?.trim() || product.nombre;
   const description =
-    product.descripcion_corta?.trim() || "Producto disponible en catálogo";
+    (product.descripcion_corta?.trim() && richTextPreview(product.descripcion_corta)) ||
+    "Producto disponible en catálogo";
 
   return (
     <article className="group relative flex h-full min-h-[420px] w-full max-w-[320px] flex-col overflow-hidden rounded-[34px] border border-[rgba(34,76,168,0.14)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,#f8fbff_100%)] shadow-[0_24px_56px_rgba(18,44,108,0.14)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_30px_62px_rgba(18,44,108,0.18)]">

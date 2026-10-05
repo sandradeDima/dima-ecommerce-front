@@ -294,7 +294,6 @@ export type CheckoutPedidoItemPayload = {
   nombre: string;
   slug: string;
   sku?: string | null;
-  sku_dima?: string | null;
   marca?: string | null;
   categoria?: string | null;
   subcategoria?: string | null;
@@ -366,7 +365,6 @@ export type ProductoRelacionadoItem = {
 export type ProductoDetailItem = {
   id: number;
   sku: string | null;
-  sku_dima: string | null;
   moneda?: string | null;
   nombre: string;
   marca_id: number | null;
@@ -531,7 +529,6 @@ export type ProductoItem = {
   alt_imagen: string | null;
   slug: string;
   sku?: string | null;
-  sku_dima?: string | null;
   moneda?: string | null;
   precio?: number | string | null;
   precio_referencial?: number | string | null;

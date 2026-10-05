@@ -197,7 +197,6 @@ function buildCheckoutPayload(params: {
       nombre: item.nombre,
       slug: item.slug,
       sku: item.sku,
-      sku_dima: item.skuDima,
       marca: item.marca,
       categoria: item.categoria,
       subcategoria: item.subcategoria,
