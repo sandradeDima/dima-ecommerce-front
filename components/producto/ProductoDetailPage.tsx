@@ -358,10 +358,7 @@ export default function ProductoDetailPage({ slug }: ProductoDetailPageProps) {
                         className="mt-6 w-full justify-center"
                       />
 
-                      <p className="mt-4 max-w-[34ch] text-[13px] leading-6 text-white/72">
-                        Agrega este producto al carrito para enviar una solicitud completa y dejar
-                        registrado tu pedido en Dima.
-                      </p>
+
                     </div>
 
                     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-1">
@@ -417,7 +414,7 @@ export default function ProductoDetailPage({ slug }: ProductoDetailPageProps) {
                   <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[var(--dima-primary)]">
                     Detalle técnico
                   </p>
-                  <div className="mt-4 max-w-[72ch] text-[15px] leading-8 text-[var(--dima-ink-soft)] [&_a]:text-[var(--dima-primary)] [&_a]:underline [&_li]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_ul]:list-disc [&_ul]:pl-5">
+                  <div className="mt-4  text-[15px] leading-8 text-[var(--dima-ink-soft)] [&_a]:text-[var(--dima-primary)] [&_a]:underline [&_li]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_ul]:list-disc [&_ul]:pl-5">
                     {technicalDescriptionHtml ? (
                       <div dangerouslySetInnerHTML={{ __html: technicalDescriptionHtml }} />
                     ) : (
@@ -432,12 +429,13 @@ export default function ProductoDetailPage({ slug }: ProductoDetailPageProps) {
 
                 <article className="rounded-[30px] border border-[var(--dima-line)] bg-[linear-gradient(180deg,#f9fbff_0%,#edf4ff_100%)] p-6 shadow-[0_18px_32px_rgba(18,44,108,0.08)]">
                   <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[var(--dima-primary)]">
-                    Resumen comercial
+                    Notas
                   </p>
                   <ul className="mt-4 space-y-3 text-[14px] leading-relaxed text-[var(--dima-ink-soft)]">
-                    <li>Pedido registrado directamente desde la ficha del producto.</li>
-                    <li>Precio sujeto a validación comercial según disponibilidad y volumen.</li>
-                    <li>Seguimiento centralizado desde el carrito y WhatsApp de Dima.</li>
+
+                    <li>Precio sujeto a variación sin previo aviso</li>
+                    <li>Consultar disponibilidad</li>
+
                   </ul>
                 </article>
               </div>

@@ -28,10 +28,10 @@ export default function RelatedProductCard({ product }: RelatedProductCardProps)
         href={href}
         className="relative z-10 block p-4 pb-0"
       >
-        <div className="relative overflow-hidden rounded-[28px] border border-white/75 bg-[linear-gradient(180deg,#eef5ff_0%,#d7e6ff_55%,#edf4ff_100%)] px-4 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_20px_34px_rgba(37,76,169,0.12)]">
+        <div className="relative overflow-hidden rounded-[28px] border-4  border-[var(--dima-accent)]   px-4 py-5    shadow-[0_0_0_2px_rgba(37,76,169,0.18),0_0_60px_rgba(37,76,169,0.30)]">
           <div className="pointer-events-none absolute inset-0">
             <div
-              className="absolute inset-3 rounded-[24px] opacity-30 blur-2xl"
+              className="absolute inset-3 rounded-[24px] opacity-0 blur-2xl"
               style={{
                 backgroundImage: `url(${resolvedImageUrl})`,
                 backgroundPosition: "center",
@@ -47,7 +47,7 @@ export default function RelatedProductCard({ product }: RelatedProductCardProps)
               src={resolvedImageUrl}
               alt={altText}
               title={titleText}
-              className="h-full w-full object-contain drop-shadow-[0_18px_28px_rgba(18,44,108,0.18)] transition-transform duration-300 ease-out group-hover:scale-[1.04]"
+              className="h-full w-full object-contain  transition-transform duration-300 ease-out group-hover:scale-[1.04]"
               loading="lazy"
             />
           </div>
