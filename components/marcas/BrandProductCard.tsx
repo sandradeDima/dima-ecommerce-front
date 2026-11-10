@@ -119,24 +119,27 @@ export default function BrandProductCard({ product }: BrandProductCardProps) {
           </p>
         </Link>
 
-        {isPrecioVisible(product.precio_visible) ? (
-          <div className="mt-3 text-[24px] font-bold text-[var(--dima-ink)]">
-            {formatProductPrice(product) ?? "Consultar precio"}
-          </div>
-        ) : null}
+        <div className="mt-auto">
 
-        <div className="mx-auto mt-auto flex w-full max-w-[250px] flex-col gap-2">
-          <AddToCartButton
-            product={product}
-            productPath={productHref}
-            className="h-[42px] w-full justify-center bg-[var(--dima-accent)] text-[12px]"
-          />
-          <Link
-            href={productHref}
-            className="inline-flex h-[42px] w-full items-center justify-center rounded-full bg-[#111111] text-[13px] font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[var(--dima-primary)]"
-          >
-            Ver más
-          </Link>
+          {isPrecioVisible(product.precio_visible) ? (
+            <div className=" mb-[10px]   text-[24px] font-bold text-[var(--dima-ink)]">
+              {formatProductPrice(product) ?? "Consultar precio"}
+            </div>
+          ) : null}
+
+          <div className="mx-auto  mt-auto flex w-full max-w-[250px] flex-col gap-2">
+            <AddToCartButton
+              product={product}
+              productPath={productHref}
+              className="h-[42px] w-full justify-center bg-[var(--dima-accent)] text-[12px]"
+            />
+            <Link
+              href={productHref}
+              className="inline-flex h-[42px] w-full items-center justify-center rounded-full bg-[#111111] text-[13px] font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[var(--dima-primary)]"
+            >
+              Ver más
+            </Link>
+          </div>
         </div>
       </div>
     </article>

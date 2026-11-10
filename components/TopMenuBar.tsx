@@ -34,7 +34,7 @@ export default function TopMenuBar({ className = "" }: TopMenuBarProps) {
 
   return (
     <header
-      className={`sticky top-0 z-50 overflow-hidden border-b border-white/12 bg-[linear-gradient(135deg,#003b7e_0%,#004899_55%,#195fae_100%)] text-white shadow-[0_18px_42px_rgba(0,51,111,0.26)] ${className}`}
+      className={`sticky top-0 z-50  border-b border-white/12 bg-[linear-gradient(135deg,#003b7e_0%,#004899_55%,#195fae_100%)] text-white shadow-[0_18px_42px_rgba(0,51,111,0.26)] ${className}`}
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(150,152,168,0.26),transparent_26%),radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.08),transparent_55%)]" />
 

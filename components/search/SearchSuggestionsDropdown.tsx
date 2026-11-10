@@ -52,7 +52,7 @@ export default function SearchSuggestionsDropdown({
 
   return (
     <div
-      className={`absolute left-0 right-0 z-40 max-h-[340px] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_16px_35px_rgba(15,23,42,0.18)] ${className}`}
+      className={`absolute left-0 right-0 z-[100] max-h-[340px] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_16px_35px_rgba(15,23,42,0.18)] ${className}`}
       role="listbox"
       aria-label="Sugerencias de búsqueda"
     >

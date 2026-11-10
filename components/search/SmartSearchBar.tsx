@@ -119,7 +119,7 @@ export default function SmartSearchBar({
         : highlightedIndex;
 
   return (
-    <div ref={rootRef} className={`relative ${className}`}>
+    <div ref={rootRef} className={`relative ${shouldRenderDropdown ? "z-50" : ""}  ${className}`}>
       <form
         className={formClassName}
         onSubmit={(event) => {

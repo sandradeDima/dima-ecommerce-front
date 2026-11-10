@@ -408,7 +408,7 @@ export default function CatalogoPageContent() {
           />
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
-            <aside className="overflow-hidden rounded-[34px] border border-[var(--dima-line)] bg-white shadow-[var(--dima-shadow)]">
+            <aside className=" rounded-[34px] border border-[var(--dima-line)] bg-white shadow-[var(--dima-shadow)]">
               <div className="bg-[linear-gradient(135deg,var(--dima-primary)_0%,var(--dima-primary-strong)_100%)] px-5 py-4 text-center text-[13px] font-bold uppercase tracking-[0.16em] text-white">
                 Filtros inteligentes
               </div>
@@ -444,19 +444,19 @@ export default function CatalogoPageContent() {
                   <div className="max-h-[130px] space-y-1.5 overflow-y-auto pr-1">
                     {isLoadingFilters
                       ? Array.from({ length: 4 }).map((_, index) => (
-                          <div
-                            key={`brand-filter-loading-${index}`}
-                            className="h-4 animate-pulse rounded bg-slate-200"
-                          />
-                        ))
+                        <div
+                          key={`brand-filter-loading-${index}`}
+                          className="h-4 animate-pulse rounded bg-slate-200"
+                        />
+                      ))
                       : mergedBrandOptions.map((brand) => (
-                          <OptionCheckboxItem
-                            key={brand.id}
-                            name={brand.nombre}
-                            checked={selectedMarca === brand.id}
-                            onChange={() => handleBrandToggle(brand.id)}
-                          />
-                        ))}
+                        <OptionCheckboxItem
+                          key={brand.id}
+                          name={brand.nombre}
+                          checked={selectedMarca === brand.id}
+                          onChange={() => handleBrandToggle(brand.id)}
+                        />
+                      ))}
                   </div>
                 </div>
 
@@ -472,19 +472,19 @@ export default function CatalogoPageContent() {
                   <div className="max-h-[130px] space-y-1.5 overflow-y-auto pr-1">
                     {isLoadingFilters
                       ? Array.from({ length: 4 }).map((_, index) => (
-                          <div
-                            key={`category-filter-loading-${index}`}
-                            className="h-4 animate-pulse rounded bg-slate-200"
-                          />
-                        ))
+                        <div
+                          key={`category-filter-loading-${index}`}
+                          className="h-4 animate-pulse rounded bg-slate-200"
+                        />
+                      ))
                       : mergedCategoryOptions.map((category) => (
-                          <OptionCheckboxItem
-                            key={category.id}
-                            name={category.nombre}
-                            checked={selectedCategoria === category.id}
-                            onChange={() => handleCategoryToggle(category.id)}
-                          />
-                        ))}
+                        <OptionCheckboxItem
+                          key={category.id}
+                          name={category.nombre}
+                          checked={selectedCategoria === category.id}
+                          onChange={() => handleCategoryToggle(category.id)}
+                        />
+                      ))}
                   </div>
                 </div>
 
@@ -502,11 +502,10 @@ export default function CatalogoPageContent() {
                   <button
                     type="button"
                     onClick={() => handleTabClick("")}
-                    className={`shrink-0 rounded-full px-4 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] transition ${
-                      !selectedCategoria
+                    className={`shrink-0 rounded-full px-4 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] transition ${!selectedCategoria
                         ? "bg-[var(--dima-primary)] text-white shadow-[0_12px_24px_rgba(0,72,153,0.2)]"
                         : "text-[var(--dima-ink-soft)] hover:bg-[var(--dima-surface-soft)]"
-                    }`}
+                      }`}
                   >
                     Todos
                   </button>
@@ -516,11 +515,10 @@ export default function CatalogoPageContent() {
                       key={category.id}
                       type="button"
                       onClick={() => handleTabClick(category.id)}
-                      className={`shrink-0 rounded-full px-4 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] transition ${
-                        selectedCategoria === category.id
+                      className={`shrink-0 rounded-full px-4 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] transition ${selectedCategoria === category.id
                           ? "bg-[var(--dima-accent)] text-white shadow-[0_12px_24px_rgba(0,72,153,0.18)]"
                           : "text-[var(--dima-ink-soft)] hover:bg-[var(--dima-surface-soft)]"
-                      }`}
+                        }`}
                     >
                       {category.nombre}
                     </button>
