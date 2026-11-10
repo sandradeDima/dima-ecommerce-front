@@ -56,7 +56,7 @@ export default function TopMenuBar({ className = "" }: TopMenuBarProps) {
                 src="/assets/logo_dima.png"
                 alt="Dima"
                 fill
-                priority
+                sizes="(min-width: 1280px) 300px, (min-width: 1024px) 260px, 240px"
                 className="object-contain brightness-0 invert"
               />
             </Link>

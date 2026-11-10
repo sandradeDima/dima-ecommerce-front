@@ -236,14 +236,15 @@ export default function SiteFooter() {
             <div id="footer-contact" className="space-y-5">
               <Link
                 href="/"
-                className="relative block h-[58px] w-[180px] sm:h-[66px] sm:w-[220px]"
+                className="relative block h-[72px] w-[230px] sm:h-[84px] sm:w-[280px]"
                 aria-label="Dima"
               >
                 <Image
                   src="/assets/logo_dima_blanco.png"
                   alt="Dima"
                   fill
-                  className="object-contain object-left"
+                  priority
+                  className="object-contain object-left  "
                 />
               </Link>
 

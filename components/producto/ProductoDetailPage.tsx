@@ -307,7 +307,7 @@ export default function ProductoDetailPage({ slug }: ProductoDetailPageProps) {
                       Volver al buscador
                     </Link>
 
-                    <div className="overflow-hidden rounded-[30px] bg-[linear-gradient(145deg,var(--dima-primary-strong)_0%,var(--dima-primary)_58%,#3162cf_100%)] p-6 text-white shadow-[0_26px_52px_rgba(18,44,108,0.22)]">
+                    <div className="flex flex-1 flex-col overflow-hidden rounded-[30px] bg-[linear-gradient(145deg,var(--dima-primary-strong)_0%,var(--dima-primary)_58%,#3162cf_100%)] p-6 text-white shadow-[0_26px_52px_rgba(18,44,108,0.22)]">
                       <div className="flex flex-wrap gap-2">
                         {product?.marca?.slug ? (
                           <Link
@@ -355,60 +355,61 @@ export default function ProductoDetailPage({ slug }: ProductoDetailPageProps) {
                       <AddToCartButton
                         product={product}
                         productPath={`/producto/${product.slug}`}
-                        className="mt-6 w-full justify-center"
+                        className="mt-auto w-full justify-center"
                       />
 
 
                     </div>
 
-                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-1">
-                      <article className="rounded-[26px] border border-[var(--dima-line)] bg-white p-5 shadow-[0_18px_32px_rgba(18,44,108,0.08)]">
-                        <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[var(--dima-primary)]">
-                          Especificaciones clave
-                        </p>
-                        <ul className="mt-4 space-y-3 text-[14px] leading-relaxed text-[var(--dima-ink-soft)]">
-                          {specs.map((item) => (
-                            <li key={item.label} className="flex items-start justify-between gap-4">
-                              <span className="font-semibold text-[var(--dima-ink)]">{item.label}</span>
-                              <span className="text-right">{item.value}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </article>
 
-                      <article className="rounded-[26px] border border-[var(--dima-line)] bg-[linear-gradient(180deg,#f9fbff_0%,#edf4ff_100%)] p-5 shadow-[0_18px_32px_rgba(18,44,108,0.08)]">
-                        <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[var(--dima-primary)]">
-                          Marca
-                        </p>
-                        {product.marca?.slug ? (
-                          <Link
-                            href={`/marcas/${product.marca.slug}`}
-                            className="mt-4 flex items-center gap-4 rounded-[20px] border border-white/80 bg-white/90 px-4 py-4 transition hover:border-[var(--dima-primary-soft)]"
-                          >
-                            {brandLogo?.url ? (
-                              <img
-                                src={brandLogo.url}
-                                alt={brandLogo.alt}
-                                title={brandLogo.title}
-                                className="h-10 w-auto max-w-[120px] object-contain"
-                                loading="lazy"
-                              />
-                            ) : null}
-                            <span className="text-[15px] font-semibold text-[var(--dima-ink)]">
-                              {brandLogo?.name || product.marca.nombre}
-                            </span>
-                          </Link>
-                        ) : (
-                          <p className="mt-4 text-[15px] font-semibold text-[var(--dima-ink)]">
-                            {product.marca?.nombre || "Sin marca"}
-                          </p>
-                        )}
-                      </article>
-                    </div>
                   </aside>
                 </div>
               </div>
 
+              <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+                <article className="rounded-[26px] border border-[var(--dima-line)] bg-white p-5 shadow-[0_18px_32px_rgba(18,44,108,0.08)]">
+                  <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[var(--dima-primary)]">
+                    Especificaciones clave
+                  </p>
+                  <ul className="mt-4 space-y-3 text-[14px] leading-relaxed text-[var(--dima-ink-soft)]">
+                    {specs.map((item) => (
+                      <li key={item.label} className="flex items-start justify-between gap-4">
+                        <span className="font-semibold text-[var(--dima-ink)]">{item.label}</span>
+                        <span className="text-right">{item.value}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+
+                <article className="rounded-[26px] border border-[var(--dima-line)] bg-[linear-gradient(180deg,#f9fbff_0%,#edf4ff_100%)] p-5 shadow-[0_18px_32px_rgba(18,44,108,0.08)]">
+                  <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[var(--dima-primary)]">
+                    Marca
+                  </p>
+                  {product.marca?.slug ? (
+                    <Link
+                      href={`/marcas/${product.marca.slug}`}
+                      className="mt-4 flex items-center gap-4 rounded-[20px] border border-white/80 bg-white/90 px-4 py-4 transition hover:border-[var(--dima-primary-soft)]"
+                    >
+                      {brandLogo?.url ? (
+                        <img
+                          src={brandLogo.url}
+                          alt={brandLogo.alt}
+                          title={brandLogo.title}
+                          className="h-10 w-auto max-w-[120px] object-contain"
+                          loading="lazy"
+                        />
+                      ) : null}
+                      <span className="text-[15px] font-semibold text-[var(--dima-ink)]">
+                        {brandLogo?.name || product.marca.nombre}
+                      </span>
+                    </Link>
+                  ) : (
+                    <p className="mt-4 text-[15px] font-semibold text-[var(--dima-ink)]">
+                      {product.marca?.nombre || "Sin marca"}
+                    </p>
+                  )}
+                </article>
+              </div>
               <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
                 <article className="rounded-[30px] border border-[var(--dima-line)] bg-white p-6 shadow-[0_18px_32px_rgba(18,44,108,0.08)]">
                   <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[var(--dima-primary)]">
