@@ -80,9 +80,8 @@ export default function SearchSuggestionsDropdown({
                 event.preventDefault();
                 onSelectItem(item);
               }}
-              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left transition ${
-                isActive ? "bg-[#F54029]/10" : "hover:bg-slate-100"
-              }`}
+              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left transition ${isActive ? "bg-[#F54029]/10" : "hover:bg-slate-100"
+                }`}
             >
               <ItemImage item={item} />
               <span className="min-w-0 flex-1">

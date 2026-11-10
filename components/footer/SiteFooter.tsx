@@ -240,7 +240,7 @@ export default function SiteFooter() {
                 aria-label="Dima"
               >
                 <Image
-                  src="/assets/logo_dima.png"
+                  src="/assets/logo_dima_blanco.png"
                   alt="Dima"
                   fill
                   className="object-contain object-left"
